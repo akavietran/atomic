@@ -1,0 +1,33 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+.table-country {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button-css {
+    margin-top: 10px;
+}
+.show {
+    display: block !important;
+}
+.div-flex {
+    margin: 10px;
+    display: flex;
+    width: 50%;
+    align-items: center;
+}

@@ -1,0 +1,1 @@
+<h1 style="{{ $style }}">{{ $slot }}</h1>
