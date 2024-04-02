@@ -19,6 +19,7 @@ class AtomicRepository
     public function create($data)
     {
         try {
+                       
             return Atomictest::create($data);
         } catch (\Throwable $th) {
             throw $th;
