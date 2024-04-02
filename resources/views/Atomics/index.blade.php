@@ -24,9 +24,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script>
-        let showModal = false;
-
         function toggleModal() {
+            let showModal = false;
             showModal = !showModal;
             const modalElement = document.querySelector('.modal');
             if (showModal) {
@@ -41,6 +40,13 @@
             const modalElement = document.querySelector('.modal');
             modalElement.classList.remove('show');
         }
+
+        function showModal(id, name) {
+            toggleModal();
+            const destroyForm = document.getElementById('destroyForm');
+            destroyForm.action = `{{ route('atomic.destroy', ['atomic' => 'ID_PLACEHOLDER']) }}`.replace('ID_PLACEHOLDER',
+                id);
+        }
     </script>
 
 </head>
@@ -51,18 +57,17 @@
         <div>
             @php
                 $headers = ['id', 'Name', 'Phone', 'Date', 'Gender', 'Role', 'Description', 'Action'];
-            
+
                 $allRows = [];
-            
+
                 foreach ($atomics as $atomic) {
                     $roleMap = [
-        '1' => 'Dev',
-        '2' => 'Leader',
-        '3' => 'Admin'
-    ];
-    
+                        '1' => 'Dev',
+                        '2' => 'Leader',
+                        '3' => 'Admin',
+                    ];
 
-    $role = isset($roleMap[$atomic['role']]) ? $roleMap[$atomic['role']] : '';
+                    $role = isset($roleMap[$atomic['role']]) ? $roleMap[$atomic['role']] : '';
                     $atomicRow = [
                         $atomic['id'],
                         $atomic['name'],
@@ -74,7 +79,6 @@
                     ];
                     $allRows[] = $atomicRow;
                 }
-                
 
                 $props = [
                     'title' => 'Delete',

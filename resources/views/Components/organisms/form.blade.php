@@ -26,7 +26,7 @@
         <x-molecules.Inputfiend label="{{ $label['date'] }}" type="{{ $type['date'] }}" name="{{ $name['date'] }}"
             placeholder="{{ $placeholder['date'] }}">
         </x-molecules.Inputfiend>
-        <x-molecules.Checkboxfield name="gender" classDiv="div-flex" classInput="test " :options="[['id' => '1', 'value' => 'nam'], ['id' => '2', 'value' => 'Nữ'], ['id' => '3', 'value' => 'Khác']]" />
+        <x-molecules.Checkboxfield  name="gender" classDiv="div-flex" classInput="test " :options="[['id' => '1', 'value' => 'nam'], ['id' => '2', 'value' => 'Nữ'], ['id' => '3', 'value' => 'Khác']]" />
         <x-molecules.Selectfield title="role"  name="role" :options="[
             '1' => 'Dev',
             '2' => 'Leader',

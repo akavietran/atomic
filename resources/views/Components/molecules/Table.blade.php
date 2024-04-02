@@ -1,6 +1,6 @@
-@props(['headers', 'rows','buttonClass' => null,'href','datas'])
+@props(['headers', 'rows', 'buttonClass' => null, 'href', 'datas'])
 <div>
-    <x-atoms.a class="btn btn-primary" href="{{ route('atomic.create')}}" >Create</x-atoms.a>
+    <x-atoms.a class="btn btn-primary" href="{{ route('atomic.create') }}">Create</x-atoms.a>
 </div>
 <x-atoms.table>
     <x-atoms.thead>
@@ -21,12 +21,15 @@
                     @php
                         $data = $datas[$rowIndex];
                     @endphp
-                    <x-atoms.a href="{{ route('atomic.edit', ['atomic' => $data->id  ]) }}" class="btn btn-warning {{$buttonClass}}">Update</x-atoms.a>
-                    <form action="{{ route('atomic.destroy', ['atomic' => $data->id   ]) }}" method="POST" style="display: inline;">
+                    <x-atoms.a href="{{ route('atomic.edit', ['atomic' => $data->id]) }}"
+                        class="btn btn-warning {{ $buttonClass }}">Update</x-atoms.a>
+                    <x-atoms.button class="btn btn-danger"
+                        onclick="showModal('{{ $data->id }}', '{{ $data->name }}')">Destroy</x-atoms.button>
+                    {{-- <form action="{{ route('atomic.destroy', ['atomic' => $data->id   ]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <x-atoms.button type="submit" class="btn btn-danger">Destroy</x-atoms.button>
-                    </form>
+                    </form> --}}
                 </x-atoms.td>
             </tr>
         @endforeach

@@ -43,6 +43,7 @@ class AtomicController extends Controller
        
 
         try {
+            
             $success =  $this->atomicService->create($request->validated());
             if($success){
                 return redirect()->route('atomic.index');

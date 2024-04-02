@@ -79,10 +79,6 @@
                 'buttonClass' => 'button-css' 
             ];
         @endphp
-        
-       <div>
-        {{$atomics->gender}}
-       </div>
         <x-organisms.formedit
             :title="$props['title']"
             :label="$props['label']"

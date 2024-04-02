@@ -28,8 +28,8 @@
         <x-molecules.Inputfiend value='{{ $value->date }}' label="{{ $label['date'] }}" type="{{ $type['date'] }}"
             name="{{ $name['date'] }}" placeholder="{{ $placeholder['date'] }}">
         </x-molecules.Inputfiend>
-
-        <x-molecules.Checkboxfield name="gender" classDiv="div-flex" :options="[['id' => '1', 'value' => 'nam'], ['id' => '2', 'value' => 'Nữ'], ['id' => '3', 'value' => 'Khác']]" />
+      
+        <x-molecules.Checkboxfield title="gender" name="gender" classDiv="div-flex" :options="[['id' => '1', 'value' => 'nam'], ['id' => '2', 'value' => 'Nữ'], ['id' => '3', 'value' => 'Khác']]" />
         <x-molecules.Selectfield title="role" name="role" :options="[
             '1' => 'Dev',
             '2' => 'Leader',
@@ -41,8 +41,6 @@
             @endforeach
 
         </x-molecules.Selectfield>
-
-
         <x-molecules.Textareafield rows=4 class="" :value="$value->description" label="{{ $label['description'] }}"
             name="{{ $name['description'] }}" placeholder="{{ $placeholder['description'] }}" />
         <x-atoms.button type="submit" class="btn btn-primary {{ $buttonClass }}">Submit</x-atoms.button>

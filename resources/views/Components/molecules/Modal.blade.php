@@ -13,9 +13,15 @@
       </div>
       
       <div class="{{  $props['modal']['footer'] }}">
-        <x-atoms.button type="button" class="btn btn-primary {{ $props['buttonClass']}}">Save changes</x-atoms.button>
+        <form id="destroyForm" method="POST">
+          @csrf
+          @method('DELETE')
+          <x-atoms.button type="submit" class="btn btn-danger">Destroy</x-atoms.button>
+      </form>
+        {{-- <x-atoms.button type="button" onclick="" class="btn btn-primary {{ $props['buttonClass']}}">Save changes</x-atoms.button> --}}
         <x-atoms.button type="button" onclick="handleClose()" class="btn btn-secondary {{ $props['buttonClass'] }}" data-dismiss="modal">Close</x-atoms.button>
-      </div>
+    </div>
+    
     </div>
   </div>
 </div>

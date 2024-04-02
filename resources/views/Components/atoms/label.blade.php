@@ -1,3 +1,3 @@
-@props([ 'value'])
+@props(['value'])
 
-<label >{{ $value }}</label>
+<label>{{ $value }}</label>
