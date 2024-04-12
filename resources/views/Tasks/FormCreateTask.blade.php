@@ -21,92 +21,97 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Create</h1>
-                <form id="taskForm" method="POST" action="{{ route('task.store') }}"
-                    enctype="multipart/form-data">
-                    @csrf
-                   
-                    <div class="form-group">
-                        <label for="project">Project</label>
-                        <select class="form-control" name="project_id" id="project">
-                            @foreach ($projects as $project)
-                                <option value="{{ $project->id }}">{{ $project->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label  for="persons">Persons</label>
-                        <select name="persons[]" id="persons" multiple style="display: none;">
+               
+                <x-organisms.TaskOrganisms.FormCreate title="Create" class="container"
+                :label="[
+                    'start_time' => 'start_time',
+                    'end_time' => 'end_time',
+                    'priority' => 'priority',
+                    'name' => 'name',
+                    'description' => 'description',
+                    'status' => 'status',
+                ]"
+                :options="[
+                    'status'=> [
+                        ['id' => 1, 'name' => 'Hoàn thành'],
+                        ['id' => 2, 'name' => 'Đang xử lý'],
+                        ['id' => 3, 'name' => 'Chưa bắt đầu'],
+                        ['id' => 4, 'name' => 'Tạm hoãn'],
+                    ],
+                    'priority' => [
+                        ['id' => 1, 'name' => 'Cao'],
+                        ['id' => 2, 'name' => 'Trung bình'],
+                        ['id' => 3, 'name' => 'Thấp'],
+                    ]
+                ]"
+                :name="[
+                    'start_time' => 'start_time',
+                    'end_time' => 'end_time',
+                    'priority' => 'priority',
+                    'name' => 'name',
+                    'description' => 'description',
+                    'status' => 'status',
+                ]"
+                :placeholder="[
+                    'start_time' => 'start_time',
+                    'end_time' => 'end_time',
+                    'priority' => 'priority',
+                    'name' => 'name',
+                    'description' => 'description',
+                    'status' => 'status',
+                ]"
+                :id="['taskForm' => 'taskForm']"
+                :type="['text' => 'text', 'date' => 'date']"
+                classInput="form-control" buttonClass="btn btn-primary"
+                :class="['class' => 'form-control']"
+            >
+                <div class="form-group">
+                    <label for="project">Project</label>
+                    <select class="form-control" name="project_id" id="project">
+                        @foreach ($projects as $project)
+                            <option value="{{ $project->id }}">{{ $project->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="persons">Persons</label>
+                    <select name="persons[]" id="persons" multiple style="display: none;"></select>
+                    <div id="persons-checkboxes"></div>
+                </div>
+            </x-organisms.TaskOrganisms.FormCreate>
+            
 
-                        </select>
-                        <div id="persons-checkboxes"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="start_time">start_time</label>
-                        <input class="form-control" type="date" name="start_time" id="start_time">
-                    </div>
-                    <div class="form-group">
-                        <label for="end_time">end_time</label>
-                        <input class="form-control" type="date" name="end_time" id="end_time">
-                    </div>
-                    <div class="form-group">
-                        <label for="priority">priority</label>
-                        <select class="form-control" name="priority" id="priority">
-                                <option value="1">Cao</option>
-                                <option value="2">Trung Bình</option>
-                                <option value="3">Thấp</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">name</label>
-                        <input class="form-control" type="text" name="name" id="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="description">description</label>
-                        <input class="form-control" type="text" name="description" id="description">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="status">status</label>
-                        <select class="form-control" name="status" id="status">
-                                <option value="1">mới tạo</option>
-                                <option value="2">đang làm</option>
-                                <option value="3">hoàn thành</option>
-                                <option value="4">tạm hoãn</option>
-                        </select>
-                    </div>
 
-                    <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
-                </form>
 
                 <script>
                     $(document).ready(function() {
                         $('#taskForm').on('submit', function(event) {
-    event.preventDefault();
-    var formData = new FormData(this);
-    $.ajax({
-        url: '/task',
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if (response.success) {
-        $('#ajaxResponse').html(response.data);
-    }
-            if (response.success) {
-                window.location.href = '/task';
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error(error);
-        }
-    });
-    return false;
-});
+                            event.preventDefault();
+                            var formData = new FormData(this);
+                            $.ajax({
+                                url: '/task',
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function(response) {
+                                    if (response.success) {
+                                        $('#ajaxResponse').html(response.data);
+                                    }
+                                    if (response.success) {
+                                        window.location.href = '/task';
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+                            return false;
+                        });
 
                         $('#project').on('change', function() {
                             var project_id = $(this).val();

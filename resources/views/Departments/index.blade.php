@@ -65,6 +65,9 @@
                         @endif
                     @endforeach
                 </table>
+                <div>
+                    {{ $departments->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
     </div>

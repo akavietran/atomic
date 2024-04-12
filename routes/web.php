@@ -9,7 +9,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\AtomicController;
+use App\Http\Controllers\LoginController;
 use App\Exports\TasksExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -23,7 +23,6 @@ use Maatwebsite\Excel\Facades\Excel;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::controller(CountryController::class)->group(function () {
     Route::get('/', 'showCountry')->name('index');
     Route::get('/create', 'createCountry')->name('create');
@@ -32,8 +31,10 @@ Route::controller(CountryController::class)->group(function () {
     Route::put('/update/{id}', 'updateCountry')->name('update');
     Route::delete('/destroy/{id}', 'destroyCountry')->name('destroy');
 });
-Route::resources(
-    [
+
+Route::middleware(['auth', 'check_role:admin'])->group(function () {
+
+    Route::resources([
         'user' => UserController::class,
         'person' => PersonController::class,
         'company' => CompanyController::class,
@@ -41,14 +42,23 @@ Route::resources(
         'department' => DepartmentController::class,
         'project' => ProjectController::class,
         'task' => TaskController::class,
-        'atomic'=> AtomicController::class,
-    ],
-    [
+    ], [
         'except' => ['show'],
-    ],
-);
+    ]);
+});
+Route::middleware(['auth', 'check_role:employee'])->group(function () {
+    Route::resource('project', ProjectController::class)->only(['index', 'show']);
+    Route::resource('task', TaskController::class)->only(['index', 'show']);
+});
+
+
+
 Route::post('/projects/persons', [ProjectController::class, 'getPersons'])->name('projects.persons');
 Route::post('/tasks/persons', [TaskController::class, 'getPersonsInProject'])->name('tasks.persons');
 Route::get('/tasks/search', [TaskController::class, 'search'])->name('task.search');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/tasks/export', [TaskController::class, 'exportExcel'])->name('tasks.export');
-
+Route::controller(LoginController::class)->group(function () {
+    Route::middleware('guest')->get('/login', 'index')->name('login');
+    Route::post('/login', 'authenticate')->name('user.login');
+});

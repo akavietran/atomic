@@ -8,12 +8,45 @@ use App\Models\Project;
 use App\Models\Person;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Auth;
 
 class TaskRepository
 {
+    public function getLoginUser()
+    {
+        $loggedInUser = Auth::user();
+      
+        return Person::where('user_id', $loggedInUser->id)->first()->full_name;
+    }
     public function getAll()
     {
-        return Task::all();
+        $loggedInUser = Auth::user();
+        $roleNames = $loggedInUser->roles->pluck('role')->toArray();
+        $person = Person::where('user_id', $loggedInUser->id)->first();
+        if (in_array('admin', $roleNames)) {
+            $tasks = Task::with('project', 'person')->paginate(3);
+        } else {
+            $personId = $person->id;
+            $tasks = Task::with('project', 'person')
+                ->where('person_id',$personId)
+                ->paginate(3);
+        }
+        $tasks->getCollection()->transform(function ($task) {
+            $company = $task->person->company->name;
+            $project = $task->project->name;
+            $person = $task->person->full_name;
+            $statusName = $task->getStatusName();
+            $priorityName = $task->getPriorityName();
+
+            $task = $task->toArray();
+            $task['project'] = $project;
+            $task['person'] = $person;
+            $task['company'] = $company;
+            $task['status'] = $statusName;
+            $task['priority'] = $priorityName;
+            return $task;
+        });
+        return $tasks;
     }
     public function getProject()
     {
@@ -23,12 +56,31 @@ class TaskRepository
     {
         return Person::all();
     }
-    
+
     public function Search($searchTerm)
     {
-        return Task::where('name', 'like', '%' . $searchTerm . '%')->get();
+        $tasks = Task::where('name', 'like', '%' . $searchTerm . '%')
+            ->with('person.company', 'project')
+            ->paginate(3);
+
+        $tasks->getCollection()->transform(function ($task) {
+            $company = $task->person->company->name;
+            $project = $task->project->name;
+            $person = $task->person->full_name;
+            $statusName = $task->getStatusName();
+            $priorityName = $task->getPriorityName();
+
+            $task = $task->toArray();
+            $task['project'] = $project;
+            $task['person'] = $person;
+            $task['company'] = $company;
+            $task['status'] = $statusName;
+            $task['priority'] = $priorityName;
+            return $task;
+        });
+        return $tasks;
     }
-    public function getPersons($projectId)  
+    public function getPersons($projectId)
     {
         $persons = Person::whereHas('projects', function ($query) use ($projectId) {
             $query->where('project_id', $projectId);

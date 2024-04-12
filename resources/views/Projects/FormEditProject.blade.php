@@ -19,32 +19,38 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Edit Project</h1>
-                <form id="projectForm" method="POST"
-                    action="{{ route('project.update', ['project' => $project->id]) }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="code">Code</label>
-                        <input class="form-control" type="text" name="code" id="code"
-                            value="{{ $project->code }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input class="form-control" type="text" name="name" id="name"
-                            value="{{ $project->name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" class="form-control" name="description" id="description"
-                            value="{{ $project->description }}">
-                    </div>
+                <x-organisms.ProjectOrganisms.FormEdit title="Edit" class="container" :label="[
+                    'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                    'company_id' => 'company_id',
+                    'persons' => 'persons',
+                ]"
+                    :name="[
+                        'code' => 'code',
+                        'name' => 'name',
+                        'description' => 'description',
+                        'company_id' => 'company_id',
+                        'persons' => 'persons',
+                    ]" :placeholder="[
+                        'code' => 'code',
+                        'name' => 'name',
+                        'description' => 'description',
+                        'company_id' => 'company_id',
+                    ]" :id="[
+                        'projectForm' => 'projectForm',
+                        'company' => 'company',
+                        'persons' => 'persons',
+                        'persons-checkboxes' => 'persons-checkboxes',
+                    ]" :type="['text' => 'text']" classInput='form-control' buttonClass="btn btn-primary" :class="['class' => 'form-control']"
+                    :project="$project">
                     <div class="form-group">
                         <label for="company">Company</label>
                         <select class="form-control" name="company_id" id="company">
-                            @foreach ($company as $company)
+                            @foreach ($companies as $company)
                                 <option value="{{ $company->id }}"
-                                    {{ $company->id == $project->company_id ? 'selected' : '' }}>{{ $company->name }}
+                                    {{ $company->id == $project->company_id ? 'selected' : '' }}>
+                                    {{ $company->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -53,67 +59,68 @@
                         <label class="form-control" for="persons">Persons</label>
                         <div id="persons-checkboxes">
                             @foreach ($persons as $person)
-                            <input type="checkbox" name="persons[]" value="{{ $person->id }}" {{ $project->persons->contains($person) ? 'checked' : '' }}>
-                            {{ $person->full_name }}<br>
-                        @endforeach
+                                <input type="checkbox" name="persons[]" value="{{ $person->id }}"
+                                    {{ $project->persons->contains($person) ? 'checked' : '' }}>
+                                {{ $person->full_name }}<br>
+                            @endforeach
                         </div>
-                    </div>
 
-                    <button type="submit" id="submitBtn" class="btn btn-primary">Update</button>
-                </form>
+                </x-organisms.ProjectOrganisms.FormEdit>
+
+
+
                 <script>
-                    $(document).ready(function() {
-                        $('#projectForm').on('submit', function(event) {
-    event.preventDefault();
-    var formData = new FormData(this);
-    formData.append('_method', 'PUT'); 
+                         $(document).ready(function() {
+        $('#projectForm').on('submit', function(event) {
+            event.preventDefault(); 
+            var formData = new FormData(this);
+            formData.append('_method', 'PUT');
 
-    $.ajax({
-        url: '/project/{{ $project->id }}', 
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if (response.success) {
-                window.location.href = '/project';
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error(error);
-        }
-    });
-    return false;
-});
-
-                        $('#company').on('change', function() {
-                            var company_id = $(this).val();
-                            $.ajax({
-                                url: '{{ route('projects.persons') }}',
-                                method: 'POST',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    company_id: company_id
-                                },
-                                success: function(response) {
-                                    $('#persons').empty();
-                                    $.each(response, function(index, person) {
-                                        $('#persons').append('<option value="' + person.id + '">' +
-                                            person.full_name + '</option>');
-                                    });
-
-                                    $('#persons-checkboxes').empty();
-                                    $.each(response, function(index, person) {
-                                        $('#persons-checkboxes').append(
-                                            '<input type="checkbox" name="persons[]" value="' +
-                                            person.id + '"> ' + person.full_name + '<br>');
-                                    });
-                                }
+            $.ajax({
+                url: '/project/{{ $project->id }}',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = '/project';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+            return false;
+        });
+                    $('#company').on('change', function() {
+                    var company_id = $(this).val();
+                    $.ajax({
+                        url: '{{ route('projects.persons') }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            company_id: company_id
+                        },
+                        success: function(response) {
+                            $('#persons').empty();
+                            $.each(response, function(index, person) {
+                                $('#persons').append('<option value="' + person.id + '">' +
+                                    person.full_name + '</option>');
                             });
-                        });
+
+                            $('#persons-checkboxes').empty();
+                            $.each(response, function(index, person) {
+                                $('#persons-checkboxes').append(
+                                    '<input type="checkbox" name="persons[]" value="' +
+                                    person.id + '"> ' + person.full_name + '<br>');
+                            });
+                        }
+                    });
+                    });
                     });
                 </script>
             </div>

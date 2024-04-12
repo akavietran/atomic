@@ -9,7 +9,11 @@ class DepartmentRepository
 {
     public function getAll()
     {
-        return Department::with('parent', 'company')->get();
+        return Department::with('parent', 'company')->paginate(3, ['*'], 'department');
+    }
+    public function getDepartment()
+    {
+        return Department::all();
     }
     public function getById($id)
     {

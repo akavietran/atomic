@@ -18,7 +18,6 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Edit</h1>
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -28,28 +27,29 @@
                     </ul>
                 </div>
             @endif
-                <form method="POST" action="{{ route('role.update', ['role' => $role->id]) }} }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="role">role:</label>
-                        <input value="{{ old('role', $role->role) }}" type="text" name="role" id="role"
-                            class="form-control" placeholder="Enter role">
-                        
-                    </div>
-
-
-                    
-
-                    <div class="form-group">
-                        <label for="Password">description:</label>
-                        <input value="{{ old('description', $role->description) }}" type="text" name="description" id="description"
-                            class="form-control" placeholder="Enter description">
-                        
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <x-organisms.RoleOrganisms.FormEdit
+            title="Create"
+            class="container"
+            :label="[
+                'role' => 'Role',
+                'description' => 'Description',
+            ]"
+            :name="[
+                'role' => 'role',
+                'description' => 'description',
+            ]"
+            :placeholder="[
+                'role' => 'Enter role',
+                'description' => 'Enter description',
+            ]"
+            :type="[
+                'text' => 'text',
+                'text' => 'text',
+            ]"
+            :role="$role"
+            buttonClass="btn btn-primary"
+            classInput="form-control"
+        />
             </div>
         </div>
     </div>

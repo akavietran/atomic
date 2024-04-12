@@ -18,10 +18,6 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Edit</h1>
-                <form method="POST" action="{{ route('person.update', ['person' => $person->id]) }} }}">
-                    @csrf
-                    @method('PUT')
 
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -32,60 +28,48 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="form-group">
-                        <label for="role">full_name:</label>
-                        <input value="{{ old('full_name', $person->full_name) }}" type="text" name="full_name"
-                            id="full_name" class="form-control" placeholder="Enter role">
-
-                    </div>
-
-
-
-
-                    <div class="form-group">
-                        <label for="Password">gender:</label>
-                        <input value="{{ old('gender', $person->gender) }}" type="text" name="gender" id="gender"
-                            class="form-control" placeholder="Enter gender">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="birthdate">birthdate:</label>
-                        <input value="{{ old('birthdate', $person->birthdate) }}" type="date" name="birthdate"
-                            id="birthdate" class="form-control" placeholder="Enter birthdate">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="phone_number">phone_number:</label>
-                        <input value="{{ old('phone_number', $person->phone_number) }}" type="text"
-                            name="phone_number" id="phone_number" class="form-control" placeholder="Enter phone_number">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="address">address:</label>
-                        <input value="{{ old('address', $person->address) }}" type="text" name="address"
-                            id="address" class="form-control" placeholder="Enter address">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="user_id">user_id:</label>
-                        <input value="{{ old('user_id',$person->user_id)}}" type="text" name="user_id"
-                            id="user_id" class="form-control" placeholder="Enter user_id">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="company_id">Company Name:</label>
-                        <select name="company_id" class="form-control">
-                            @foreach ($companies as $company)
-                                <option value="{{ $company->id }}" 
-                                    {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                    <x-organisms.PersonOrganisms.FormEdit
+                    title="Edit"
+                    class="container"
+                    :label="[
+                        'full_name' => 'full_name',
+                        'address' => 'address',
+                        'gender' => 'gender',
+                        'birthdate' => 'birthdate',
+                        'phone' => 'phone_number',
+                        'user_id' => 'user_id',
+                        'company_id'=>'company_id'
+                    ]"
+                    :name="[
+                        'full_name' => 'full_name',
+                        'address' => 'address',
+                        'gender' => 'gender',
+                        'birthdate' => 'birthdate',
+                        'phone' => 'phone_number',
+                        'user_id' => 'user_id',
+                        'company_id'=>'company_id'
+                    ]"
+                    :placeholder="[
+                        'full_name' => 'full_name',
+                        'address' => 'address',
+                        'gender' => 'gender',
+                        'birthdate' => 'birthdate',
+                        'phone' => 'phone',
+                        'user_id' => 'user_id',
+                        
+                    ]"
+                     :selected="[
+                        'person' => $person->company->id,
+                    ]"
+                    :type="[
+                        'text' => 'text',
+                        'date' => 'date',
+                    ]"
+                    :options="$companies"
+                    :person="$person"
+                    buttonClass="btn btn-primary"
+                    classInput="form-control"
+                /> 
             </div>
         </div>
     </div>

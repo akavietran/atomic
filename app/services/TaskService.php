@@ -12,7 +12,11 @@ class TaskService
     {
         $this->taskRepository = $taskRepository;
     }
-
+    
+    public function getLoginUser()
+    {
+        return $this->taskRepository->getLoginUser();
+    }
     public function getAll()
     {
         return $this->taskRepository->getAll();

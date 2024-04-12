@@ -28,6 +28,7 @@
                         </ul>
                     </div>
                 @endif
+                @if(Auth::user() && Auth::user()->hasRole('admin'))            
                 <div>
                     <form method="GET" action="{{ route('task.search') }}">
                        <div style="display: flex;align-items:center">
@@ -41,66 +42,20 @@
                     </form>
                 </div>
                 <div style="display: flex;justify-content: space-between">
-                <a href="{{ route('task.create') }}" class="btn btn-primary">Create</a>
-                <a href="{{ route('tasks.export') }}" class="btn btn-success">Excel</a>
-            </div>
-                <table>
-                    <tr>
-                        <th>Company</th>
-                        <th>Project</th>
-                        <th>Persons</th>
-                        <th>TaskName</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th>Action</th>
-                    </tr>
-                    @foreach ($tasks as $task)
-                        <tr>
-                            <td>
-                                {{ $task->person->company->name }}
-                            </td>
-                            <td>{{ $task->project->name }}</td>
-                            <td>
-                                {{ $task->person->full_name }}
-                               
-                            </td>
-                            <td>
-                                {{ $task->name }}
-                               
-                            </td>
-                            <td>
-                                @if($task->status == 1)
-                                    Mới tạo
-                                @elseif($task->status == 2)
-                                    Đang làm
-                                @elseif($task->status == 3)
-                                    Hoàn thành
-                                @else
-                                    Tạm hoãn
-                                @endif
-                            </td>
-                           
-                            <td>
-                                @if($task->priority == 1)
-                                    Cao
-                                @elseif($task->priority == 2)
-                                    Trung Bình
-                                @else
-                                    Thấp
-                                @endif
-                            </td>
-                           
-                            <td>
-                                <a href="{{ route('task.edit', ['task' => $task->id]) }}" class="btn btn-warning">Update</a>
-                                <form action="{{ route('task.destroy',['task' => $task->id]) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Destroy</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
+                    <a href="{{ route('task.create') }}" class="btn btn-primary">Create</a>
+                    <a href="{{ route('tasks.export') }}" class="btn btn-success">Excel</a>
+                </div>
+                @endif
+                
+                <x-organisms.index 
+                :headers="['Company','Project', 'Persons','TaskName','Status','Priority', Auth::user() && Auth::user()->hasRole('admin') ? 'Action' : '']" 
+                :data="$tasks"
+                :mainRoute="'task'"
+                :row="['company', 'project', 'person','name','status','priority']"
+                :pagination="$pagination"
+            />
+            
+              
             </div>
         </div>
         

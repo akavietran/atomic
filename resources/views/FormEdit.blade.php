@@ -18,38 +18,31 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Edit</h1>
-                <form method="POST" action="{{ route('update', ['id' => $country->id]) }} }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="code">Code:</label>
-                        <input value="{{ old('code', $country->code) }}" type="text" name="code" id="code"
-                            class="form-control" placeholder="Enter code">
-                        @error('code')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <input value="{{ old('code', $country->description) }}" type="text" name="description"
-                            id="description" class="form-control" placeholder="Enter description">
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input value="{{ old('code', $country->name) }}" type="text" name="name" id="name"
-                            class="form-control" placeholder="Enter name">
-                        @error('name')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                <x-organisms.CountryOrganisms.FormEdit
+                title="Edit"
+                class="container"
+                :label="[
+                    'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                ]"
+                :name="[
+                     'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                ]"
+                :placeholder="[
+                     'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                ]"
+                :type="[
+                    'text' => 'text',
+                ]"
+                :country="$country"
+                buttonClass="btn btn-primary"
+                classInput="form-control"
+            />
             </div>
         </div>
     </div>

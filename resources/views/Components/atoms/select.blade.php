@@ -1,7 +1,10 @@
-@props([ 'name', 'options' => []])
+@props(['class' => null, 'name', 'options' => [],'selected'=>null])
 
-<select  name="{{ $name }}" class="form-control" {{ $attributes }}>
-    @foreach($options as $optionValue => $optionLabel)
-        <option value="{{ $optionValue }}">{{ $optionLabel }}</option>
+
+
+<select class="{{ $class }}" name="{{ $name }}" {{ $attributes }}>
+    @foreach ($options as $option)
+        <option value="{{ $option['id'] }}" {{ $selected == $option['id'] ? 'selected' : '' }}>{{ $option['name'] }}</option>
     @endforeach
 </select>
+

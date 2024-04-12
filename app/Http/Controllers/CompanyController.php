@@ -9,20 +9,19 @@ use App\Http\Requests\CompanyRequest;
 
 class CompanyController extends Controller
 {
-
-  public function __construct(CompanyService $companyService)
-  {
-      $this->companyService = $companyService;
-  }
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-        $companies = $this->companyService->getAll();
-        return view('Companys.index',compact('companies'));
+            $companies = $this->companyService->getAll();
+            return view('Companys.index', compact('companies'));
+        
     }
 
     /**
@@ -40,13 +39,14 @@ class CompanyController extends Controller
     public function store(CompanyRequest $request)
     {
         //
-     
 
         try {
             $this->companyService->create($request->validated());
             return redirect()->route('company.index');
         } catch (\throwable $e) {
-            return back()->withErrors(['error' => $e->getMessage()])->withInput();
+            return back()
+                ->withErrors(['error' => $e->getMessage()])
+                ->withInput();
         }
     }
 

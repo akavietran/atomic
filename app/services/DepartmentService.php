@@ -17,6 +17,11 @@ class DepartmentService
     {
         return $this->departmentRepository->getAll();
     }
+    public function getDepartment()
+    {
+        return $this->departmentRepository->getDepartment();
+    }
+    
     public function getCompany()
     {
         return $this->departmentRepository->getCompany();

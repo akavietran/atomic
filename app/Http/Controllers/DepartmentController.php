@@ -34,9 +34,11 @@ class DepartmentController extends Controller
     }
     public function index()
     {
-        //
-        $companies = $this->departmentService->getCompany();
-        return view('Departments.index',compact('companies'));
+
+       
+            $departments = $this->departmentService->getAll();
+            return view('Departments.index', compact('departments'));
+       
     }
 
     /**
@@ -46,8 +48,8 @@ class DepartmentController extends Controller
     {
         $companies = $this->departmentService->getCompany();
         $parents = $this->departmentService->getParent();
-
-        return view('Departments.FormCreateDepartment', compact('companies', 'parents'));
+        $departments = $this->departmentService->getDepartment();
+        return view('Departments.FormCreateDepartment', compact('companies', 'parents','departments'));
     }
 
     /**
@@ -57,7 +59,7 @@ class DepartmentController extends Controller
     {
         try {
             $this->departmentService->create($request->validated());
-            return  redirect('/company'); 
+            return redirect('/company');
         } catch (\throwable $e) {
             return redirect('/company')
                 ->withErrors(['error' => $e->getMessage()])
@@ -68,12 +70,7 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(department $department)
-    // {
-    //     //
-    //     $department = $this->departmentService->getAll();
-    //     return view('Departments.FormEditdepartment', compact('department'));
-    // }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -83,7 +80,8 @@ class DepartmentController extends Controller
         //
         $companies = $this->departmentService->getCompany();
         $department = $this->departmentService->getById($id);
-        return view('Departments.FormEditDepartment', compact('department','companies'));
+        $departments = $this->departmentService->getDepartment();
+        return view('Departments.FormEditDepartment', compact('department', 'companies','departments'));
     }
 
     /**
@@ -93,7 +91,7 @@ class DepartmentController extends Controller
     {
         //
         $this->departmentService->update($id, $request->validated());
-        return redirect('/company'); 
+        return redirect('/company');
     }
 
     /**
@@ -102,6 +100,6 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         $this->departmentService->delete($id);
-        return redirect()->back();
+        return redirect('/company?department=1');
     }
 }

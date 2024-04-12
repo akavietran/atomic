@@ -8,7 +8,7 @@ class RoleRepository
 {
     public function getAll()
     {
-        return Role::all();
+        return Role::paginate(3);
     }
 
     public function getById($id)

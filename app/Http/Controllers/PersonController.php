@@ -20,7 +20,8 @@ class PersonController extends Controller
     public function index()
     {
         //
-        $persons = $this->personService->getAll();
+        $persons = $this->personService->getPersonCompany();
+
         return view('Persons.index',compact('persons'));
         
     }

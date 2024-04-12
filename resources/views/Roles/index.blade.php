@@ -22,33 +22,13 @@
 
             <div >
                 <a href="{{ route('role.create') }}" class="btn btn-primary">Create</a>
-                <table>
-                    <tr>
-                        <th>id</th>
-                        <th>role</th>
-                        <th>description</th>
-                        <th>action</th>
-                    </tr>
-                    @foreach ($roles as $role)
-                        <tr>
-                            <td>{{ $role->id }}</td>
-                            <td>{{ $role->role }}</td>
-                            <td>{{ $role->description }}</td>
-                            
-                            <td>
-                             
-                              <a href="{{ route('role.edit', ['role' => $role->id]) }}" class="btn btn-warning">Update</a>
-                              <form action="{{ route('role.destroy', ['role' => $role->id]) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Destroy</button>
-                            </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                   
-
-                </table>
+                <x-organisms.index 
+                :headers="['ID',  'Role','Description', 'Action']" 
+                :data="$roles"
+                :mainRoute="'role'"
+                :row="['id', 'role', 'description']"
+                :pagination="$roles"
+                 />
             </div>
         </div>
     </div>

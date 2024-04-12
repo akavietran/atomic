@@ -31,3 +31,9 @@ tr:nth-child(even) {
     width: 50%;
     align-items: center;
 }
+.input-width {
+    width: 10%;
+}
+.margin-button {
+    margin-top: 20px;
+}

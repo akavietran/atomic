@@ -1,15 +1,25 @@
-@props(['checkedValues','title'=>'gender','name', 'type' => 'checkbox', 'classInput', 'options','classInput'=>null, 'classDiv' => null])
+@props([
+    'name',
+    'options' => [],
+    'classDiv' => null,
+    'classInput' => null,
+    'labelValue'=> null,
+])
 
-<x-atoms.label :value="$title">
-</x-atoms.label>
-<div class="{{ $classDiv }}">
-  
-    @foreach ($options as $option)
-    <x-atoms.label :value="$option['value']">
-    </x-atoms.label>
-        <x-atoms.input classInput={{$classInput}}  type="{{ $type }}" id="{{ $option['id'] }}" name="{{ $name }}"
-        value="{{ $option['value'] }}">  
-    </x-atoms.input>
-        
-    @endforeach
-</div>
+
+    <div class="dropdown">
+      
+        <div class="{{ $classDiv }}">
+            @foreach ($options as $option)
+            <x-atoms.label value="{{ isset($option->$labelValue) ? $option->$labelValue : 'dont have value' }}"></x-atoms.label>
+
+            <x-atoms.input type="checkbox" 
+                name="{{ $name }}[]" 
+                value="{{ $option['id'] }}" 
+                classInput="{{ $classInput }}">
+            </x-atoms.input>
+
+            @endforeach
+        </div>
+    </div>
+   

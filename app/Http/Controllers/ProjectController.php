@@ -19,21 +19,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = $this->projectService->getAll();
-        $company = $this->projectService->getCompany();
-        $persons = [];
-        $test = $this->projectService->generateNewProjectId();
-      
-        foreach ($company as $company) {
-           
-            if ($company->person->isNotEmpty()) {
-               
-                foreach ($company->person as $person) {
-                    $persons[] = $person;
-                }
-            }
-        }
-        return view('Projects.index', compact('projects', 'company','persons','test'));
+    
+        $pagination = $this->projectService->getPersonCompany();
+        return view('Projects.index', [
+        'projects' => $pagination->items(),
+        'pagination' => $pagination,
+       ]);
     }
     
     public function getPersons(GetPersonRequest $request)
@@ -62,7 +53,7 @@ class ProjectController extends Controller
         try {
             $success = $this->projectService->create($request->validated());
             if ($success) {
-                return response()->json(['success' => true,'data' => $request->validated()]);
+                return redirect()->route("project.index");
             }
         } catch (\Exception $th) {
             return back()->withError($th->getMessage())->withInput();
@@ -75,8 +66,8 @@ class ProjectController extends Controller
         //
         $project= $this->projectService->getById($id);   
         $persons = $project->company->person;
-        $company = $this->projectService->getCompany();
-        return view('Projects.FormEditProject', compact('project','company','persons'));
+        $companies = $this->projectService->getCompany();
+        return view('Projects.FormEditProject', compact('project','companies','persons'));
     }
 
     /**

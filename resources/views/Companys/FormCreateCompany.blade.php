@@ -18,9 +18,7 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Create</h1>
-            <form method="POST" action="{{ route('company.store') }}">
-                @csrf
+         
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -30,30 +28,30 @@
                     </ul>
                 </div>
             @endif
-                <div class="form-group">
-                    <label for="code">Code:</label>
-                    <input value="{{ old('code') }}" type="text" name="code"  class="form-control"
-                        placeholder="Enter code" >
-                    
-                </div>
-
-
-                <div class="form-group">
-                    <label for="address">address:</label>
-                    <input value="{{ old('address') }}" type="text" name="address" 
-                        class="form-control" placeholder="Enter address">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input value="{{ old('name') }}" type="text" name="name"  class="form-control"
-                        placeholder="Enter name" >
-                   
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <x-organisms.CompanyOrganisms.FormCreate
+            title="Create"
+            class="container"
+            :label="[
+                'code' => 'code',
+                'name' => 'name',
+                'address' => 'address',
+            ]"
+            :name="[
+                 'code' => 'code',
+                'name' => 'name',
+                'address' => 'address',
+            ]"
+            :placeholder="[
+                 'code' => 'code',
+                'name' => 'name',
+                'address' => 'address',
+            ]"
+            :type="[
+                'text' => 'text',
+            ]"
+            buttonClass="btn btn-primary"
+            classInput="form-control"
+        />
         </div>
         </div>
     </div>

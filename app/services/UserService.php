@@ -17,9 +17,22 @@ class UserService
     {
         return $this->userRepository->getAll();
     }
+    public function getLoginUser()
+    {
+        return $this->userRepository->getLoginUser();
+    }
+    
     public function getRole()
     {
         return $this->userRepository->getRole();
+    }
+    public function getPagination($pagination)
+    {
+        return $this->userRepository->getPagination($pagination);
+    }
+    public function getRoleUser()
+    {
+        return $this->userRepository->getRoleUser();
     }
 
     public function getById($id)
@@ -32,9 +45,7 @@ class UserService
         try {
             return $this->userRepository->create($data);
         } catch (\Exception $th) {
-              
-             throw new \Exception('Failed to create user. Please try again later.');
-        
+            throw new \Exception('Failed to create user. Please try again later.');
         }
     }
 
@@ -46,18 +57,15 @@ class UserService
         } catch (\Throwable $th) {
             throw $th;
         }
-        
     }
 
     public function delete($id)
     {
         try {
             //code...
-            return $this->userRepository->delete($id);;
+            return $this->userRepository->delete($id);
         } catch (\Throwable $th) {
             throw $th;
         }
-        
     }
 }
-

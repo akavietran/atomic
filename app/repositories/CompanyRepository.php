@@ -10,7 +10,7 @@ class CompanyRepository
 {
     public function getAll()
     {
-        return Company::all();
+        return Company::paginate(3, ['*'], 'company');
     }
 
     public function getById($id)

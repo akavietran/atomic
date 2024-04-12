@@ -21,6 +21,10 @@ class PersonService
     {
         return $this->personRepository->getCompany();
     }
+    public function getPersonCompany()
+    {
+        return $this->personRepository->getPersonCompany();
+    }
 
     public function getById($id)
     {

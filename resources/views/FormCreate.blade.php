@@ -18,38 +18,30 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Create</h1>
-            <form method="POST" action="{{ route('store') }}">
-                @csrf
-
-                <div class="form-group">
-                    <label for="code">Code:</label>
-                    <input value="{{ old('code') }}" type="text" name="code"  class="form-control"
-                        placeholder="Enter code" >
-                    @error('code')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <input value="{{ old('description') }}" type="text" name="description" 
-                        class="form-control" placeholder="Enter description">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input value="{{ old('name') }}" type="text" name="name"  class="form-control"
-                        placeholder="Enter name" >
-                    @error('name')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                <x-organisms.CountryOrganisms.FormCreate
+                title="Create"
+                class="container"
+                :label="[
+                    'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                ]"
+                :name="[
+                     'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                ]"
+                :placeholder="[
+                     'code' => 'code',
+                    'name' => 'name',
+                    'description' => 'description',
+                ]"
+                :type="[
+                    'text' => 'text',
+                ]"
+                buttonClass="btn btn-primary"
+                classInput="form-control"
+            />
         </div>
         </div>
     </div>

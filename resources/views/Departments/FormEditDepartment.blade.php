@@ -21,55 +21,36 @@
         <div  style="display: flex;justify-content: center">
             <div style="width:30%;">
                 
-                <h1>Edit</h1>
-                @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                <form method="POST" action="{{ route('department.update', ['department' => $department->id]) }} }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="code">code:</label>
-                        <input value="{{ old('code', $department->code) }}" type="text" name="code" id="code"
-                            class="form-control" placeholder="Enter code">
-
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="name">name:</label>
-                        <input value="{{ old('name', $department->name) }}" type="text" name="name"
-                            id="name" class="form-control" placeholder="Enter name">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="company_id">Company:</label>
-                        <select name="company_id" id="company_id" class="form-control">
-                            <option value="">Select a company</option>
-                            @foreach($companies as $company)
-                                <option value="{{ $company->id }}" {{ $department->company_id == $company->id ? 'selected' : '' }}>
-                                    {{ $company->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                  <div class="form-group">
-                    <label for="name">parent_id:</label>
-                    <input value="{{ old('parent_id', $department->parent_id) }}" type="text" name="parent_id"
-                        id="parent_id" class="form-control" placeholder="Enter parent_id">
-
-                </div>
-                    
-
-                    <button type="submit" style="margin-top:20px" class="btn btn-primary">Submit</button>
-                </form>
-          
+                <x-organisms.DepartmentOrganisms.FormEdit
+            title="Edit"
+            class="container"
+            :label="[
+                'code' => 'code',
+                'name' => 'name',
+                'parent_id' => 'parent_id',
+            ]"
+            :name="[
+                 'code' => 'code',
+                'name' => 'name',
+                'parent_id' => 'parent_id',
+                'company_id' => 'company_id',
+            ]"
+            :placeholder="[
+                 'code' => 'code',
+                'name' => 'name',
+                'parent_id' => 'parent_id',
+            ]"
+            :type="[
+                'text' => 'text',
+            ]"
+            :options="[
+                'parent' => $departments,
+                'company' => $companies
+            ]"
+            :department="$department"
+            buttonClass="btn btn-primary"
+            classInput="form-control"
+        />
             </div>
         </div>
     </div>

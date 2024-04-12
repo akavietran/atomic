@@ -18,69 +18,37 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Edit</h1>
-                <form method="POST" action="{{ route('company.update', ['company' => $company->id]) }} }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="name">name:</label>
-                        <input value="{{ old('name', $company->name) }}" type="text" name="name" id="name"
-                            class="form-control" placeholder="Enter company">
-                        @error('name')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-
-                    
-
-                    <div class="form-group">
-                        <label for="Password">code:</label>
-                        <input value="{{ old('code', $company->code) }}" type="text" name="code" id="code"
-                            class="form-control" placeholder="Enter code">
-                        @error('code')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                      <label for="Password">address:</label>
-                      <input value="{{ old('address', $company->address) }}" type="text" name="address" id="address"
-                          class="form-control" placeholder="Enter address">
-                      @error('address')
-                          <div class="alert alert-danger">{{ $message }}</div>
-                      @enderror
-                  </div>
-                  {{-- <div class="form-group">
-                    <label for="department_id">department_id:</label>
-                    <input value="{{ old('department_id') }}" type="text" name="department_id"  class="form-control"
-                        placeholder="Enter department_id" >
-                </div> --}}
-                {{-- <div class="form-group">
-                    <label for="persons">department:</label>
-                    <select class="form-control" name="persons[]" id="persons">
-                        @foreach ($company->department as $department)
-                            <option value="{{ $department->id }}" {{ $department->company_id == $company->id ? 'selected' : '' }}>
-                                {{ $department->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div> --}}
-                {{-- <select class="form-control" name="persons[]" id="persons">
-                    @foreach ($company->department as $department)
-                        <option value="{{ $department->id }}" {{ $department->company_id == $company->id ? 'selected' : '' }}>
-                            {{ $department->name }}
-                        </option>
-                    @endforeach
-                </select> --}}
-                
-                @foreach ($company->department as $department)
+                <x-organisms.CompanyOrganisms.FormEdit
+                title="Edit"
+                class="container"
+                :label="[
+                    'code' => 'code',
+                    'name' => 'name',
+                    'address' => 'address',
+                ]"
+                :name="[
+                     'code' => 'code',
+                    'name' => 'name',
+                    'address' => 'address',
+                ]"
+                :placeholder="[
+                     'code' => 'code',
+                    'name' => 'name',
+                    'address' => 'address',
+                ]"
+                :type="[
+                    'text' => 'text',
+                ]"
+                :company='$company'
+                buttonClass="btn btn-primary"
+                classInput="form-control"
+            >
+            @foreach ($company->department as $department)
                 <input type="checkbox" name="department[]" value="{{ $department->id }}" id="{{ $department->id }}" {{ $company->department->contains($department->id) ? 'checked' : '' }}>
                 <label for="{{ $department->id }}">{{ $department->name }}</label><br>
             @endforeach
+                </x-organisms.CompanyOrganisms.FormEdit>
                 
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
             </div>
         </div>
     </div>

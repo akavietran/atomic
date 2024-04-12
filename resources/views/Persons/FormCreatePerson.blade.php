@@ -18,9 +18,8 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Create</h1>
-                <form method="POST" action="{{ route('person.store') }}">
-                    @csrf
+                {{-- <form method="POST" action="{{ route('person.store') }}">
+                    @csrf --}}
 
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -31,7 +30,7 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="full_name">Full Name:</label>
                         <input value="{{ old('full_name') }}" type="text" name="full_name" class="form-control"
                             placeholder="Enter full name">
@@ -75,9 +74,49 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
+                </form> --}}
+                <x-organisms.PersonOrganisms.FormCreate
+            title="Create"
+            class="container"
+            :label="[
+                'full_name' => 'full_name',
+                'address' => 'address',
+                'gender' => 'gender',
+                'birthdate' => 'birthdate',
+                'phone' => 'phone_number',
+                'user_id' => 'user_id',
+                'company_id'=>'company_id'
+            ]"
+            :name="[
+                'full_name' => 'full_name',
+                'address' => 'address',
+                'gender' => 'gender',
+                'birthdate' => 'birthdate',
+                'phone' => 'phone_number',
+                'user_id' => 'user_id',
+                'company_id'=>'company_id'
+            ]"
+            :placeholder="[
+                'full_name' => 'full_name',
+                'address' => 'address',
+                'gender' => 'gender',
+                'birthdate' => 'birthdate',
+                'phone' => 'phone',
+                'user_id' => 'user_id',
+                
+            ]"
+            
+            :type="[
+                'text' => 'text',
+                'date' => 'date',
+            ]"
+            :options="$companies"
+            buttonClass="btn btn-primary"
+            classInput="form-control"
+            classSelect="form-control"
+        />
             </div>
+           
         </div>
     </div>
 </body>

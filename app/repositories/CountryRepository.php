@@ -8,7 +8,7 @@ class CountryRepository
 {
     public function getAll()
     {
-        return Country::all();
+        return Country::paginate(2);
     }
 
     public function getById($id)

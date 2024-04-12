@@ -24,9 +24,13 @@ class TaskController extends Controller
     public function index()
     {
         //
-        $tasks = $this->taskService->getAll();
+        $pagination = $this->taskService->getAll();
         $export= $this->taskService->getAllWithRelations();
-        return view('Tasks.index',compact('tasks'));
+        return view('Tasks.index', [
+        'tasks' => $pagination->items(),
+        'pagination' => $pagination,
+       ]);
+       
         
     }
 
@@ -48,7 +52,7 @@ class TaskController extends Controller
         try {
             $success = $this->taskService->create($request->validated());
             if($success){
-            return response()->json(['success' => true,'data' => $request->validated()]);
+            return redirect()->route('task.index');
             }
         } catch (\throwable $e) {
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
@@ -95,12 +99,14 @@ class TaskController extends Controller
     {
     
         $searchTerm = $request->input('search');
+        $pagination =$this->taskService->Search($searchTerm);
+        $export= $this->taskService->getAllWithRelations();
+        return view('Tasks.index', [
+        'tasks' => $pagination->items(),
+        'pagination' => $pagination,
+       ]);
 
-       
-        $tasks = $this->taskService->Search($searchTerm);
-
-      
-        return view('Tasks.index', compact('tasks'));
+    
     }
     public function exportExcel()
     {

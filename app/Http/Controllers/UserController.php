@@ -19,9 +19,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-        $users = $this->userService->getAll();
-        return view('Users.index',compact('users'));
+        $pagination = $this->userService->getRoleUser();
+        return view('Users.index', [
+        'users' => $pagination->items(),
+        'pagination' => $pagination,
+       ]);
         
     }
 
@@ -67,6 +69,7 @@ class UserController extends Controller
     {
         //
         $roles=$this->userService->GetRole();
+        
         $user = $this->userService->getById($id);
         return view('Users.FormEditUser', compact('user','roles'));
     }

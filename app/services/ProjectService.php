@@ -17,6 +17,10 @@ class ProjectService
     {
         return $this->projectRepository->getAll();
     }
+    public function getPersonCompany()
+    {
+        return $this->projectRepository->getPersonCompany();
+    }
     public function getCompany()
     {
         return $this->projectRepository->getCompany();

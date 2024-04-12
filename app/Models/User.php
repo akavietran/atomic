@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $table = 'User';
-    protected $fillable = ['email', 'password', 'is_active','person_id',];
+    protected $fillable = ['email', 'password', 'is_active','person_id'];
 
     public function person()
     {
@@ -27,5 +27,9 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+    public function hasRole($role)
+    {
+        return $this->roles()->where('role', $role)->exists();
     }
 }

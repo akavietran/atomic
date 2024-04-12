@@ -21,7 +21,7 @@
 
             <div >
                 <a href="{{ route('person.create') }}" class="btn btn-primary">Create</a>
-                <table>
+                {{-- <table>
                     <tr>
                         <th>id</th>
                         <th>full_name</th>
@@ -55,7 +55,15 @@
                     @endforeach
                    
 
-                </table>
+                </table> --}}
+                <x-organisms.index 
+                :headers="['ID', 'Full_name', 'Gender', 'Birthdate','Phone_number','Address','Company','Action']" 
+                :data="$persons"
+                :mainRoute="'person'"
+                :row="['id', 'full_name', 'gender', 'birthdate','phone_number','address','company']"
+                :pagination="$persons"
+                 />
+               
             </div>
         </div>
     </div>

@@ -18,7 +18,6 @@
     <div>
         <div class="" style="display: flex;justify-content: center">
             <div style="width:30%;">
-                <h1>Create</h1>
                 
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -29,28 +28,28 @@
                     </ul>
                 </div>
             @endif
-            <form method="POST" action="{{ route('role.store') }}">
-                @csrf
-
-                <div class="form-group">
-                    <label for="role">role:</label>
-                    <input value="{{ old('role') }}" type="text" name="role"  class="form-control"
-                        placeholder="Enter role" >
-                    
-                </div>
-
-
-                
-
-                <div class="form-group">
-                    <label for="description">description:</label>
-                    <input value="{{ old('description') }}" type="text" name="description"  class="form-control"
-                        placeholder="Enter description" >
-                    
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <x-organisms.RoleOrganisms.FormCreate
+            title="Create"
+            class="container"
+            :label="[
+                'role' => 'Role',
+                'description' => 'Description',
+            ]"
+            :name="[
+                'role' => 'role',
+                'description' => 'description',
+            ]"
+            :placeholder="[
+                'role' => 'Enter role',
+                'description' => 'Enter description',
+            ]"
+            :type="[
+                'text' => 'text',
+                'text' => 'text',
+            ]"
+            buttonClass="btn btn-primary"
+            classInput="form-control"
+        />
         </div>
         </div>
     </div>

@@ -1,37 +1,42 @@
-@props(['headers', 'rows', 'buttonClass' => null, 'href', 'datas'])
-<div>
-    <x-atoms.a class="btn btn-primary" href="{{ route('atomic.create') }}">Create</x-atoms.a>
-</div>
+@props(['headers', 'data', 'mainRoute' => null, 'row'])
+
+
 <x-atoms.table>
     <x-atoms.thead>
         <tr>
             @foreach ($headers as $header)
                 <x-atoms.th>{{ $header }}</x-atoms.th>
             @endforeach
-
         </tr>
     </x-atoms.thead>
-    <tbody>
-        @foreach ($rows as $rowIndex => $row)
-            <tr>
-                @foreach ($row as $cell)
-                    <x-atoms.td>{{ $cell }}</x-atoms.td>
-                @endforeach
-                <x-atoms.td>
-                    @php
-                        $data = $datas[$rowIndex];
-                    @endphp
-                    <x-atoms.a href="{{ route('atomic.edit', ['atomic' => $data->id]) }}"
-                        class="btn btn-warning {{ $buttonClass }}">Update</x-atoms.a>
-                    <x-atoms.button class="btn btn-danger"
-                        onclick="showModal('{{ $data->id }}', '{{ $data->name }}')">Destroy</x-atoms.button>
-                    {{-- <form action="{{ route('atomic.destroy', ['atomic' => $data->id   ]) }}" method="POST" style="display: inline;">
+    @foreach ($data as $item)
+        <tr>
+            @foreach ($row as $cell)
+                    <x-atoms.td>{{ $item[$cell] }}</x-atoms.td>
+            @endforeach
+            <td>
+                @if(Auth::user() && Auth::user()->hasRole('admin'))    
+                @if ($mainRoute)
+                    <x-atoms.a href="{{ route($mainRoute . '.edit', [$mainRoute => $item['id']]) }}" label="Update"
+                        class="btn btn-warning">Update</x-atoms.a>
+                    <form action="{{ route($mainRoute . '.destroy', [$mainRoute => $item['id']]) }}" method="POST"
+                        style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <x-atoms.button type="submit" class="btn btn-danger">Destroy</x-atoms.button>
-                    </form> --}}
-                </x-atoms.td>
-            </tr>
-        @endforeach
-    </tbody>
+                        <button type="submit" class="btn btn-danger">Destroy</button>
+                    </form>
+                @else
+                    <x-atoms.a href="{{ route('edit', ['id' => $item['id']]) }}" label="Update"
+                        class="btn btn-warning">Update</x-atoms.a>
+                    <form action="{{ route('destroy', ['id' => $item['id']]) }}" method="POST"
+                        style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Destroy</button>
+                    </form>
+                @endif
+                @endif
+            </td>
+        </tr>
+    @endforeach
 </x-atoms.table>

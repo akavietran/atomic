@@ -18,8 +18,8 @@
     <!-- resources/views/includes/navbar.blade.php -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-    <div class="container w-50">
-        <a class="navbar-brand" href="#">crud lavarel</a>
+    <div class="container @if(Auth::check()) w-75 @else w-50 @endif">
+        <a class="navbar-brand" href="{{ url('/')  }}">crud lavarel</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -43,11 +43,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/task') }}">Task</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/atomic') }}">Atomic</a>
-                </li>
+               
             </ul>
         </div>
+        @if(Auth::user())
+        <div class="ml-auto d-flex align-items-center">
+            <form action="{{ url('/logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger">Sign out</button>
+            </form>
+        </div>
+        @endif
     </div>
 </nav>
 
